@@ -1,8 +1,147 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-body {
-  @apply bg-asti-cream text-gray-800;
+/* ── Base ── */
+@layer base {
+  body {
+    @apply bg-gm-gradient text-gm-chrome antialiased min-h-screen;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  /* Scrollbar glass-metal */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.03);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+}
+
+/* ── Components ── */
+@layer components {
+  /* Glass panel: the core glassmorphism container */
+  .glass-panel {
+    @apply bg-gm-glass border border-gm-glass-border backdrop-blur-xl rounded-2xl shadow-gm;
+  }
+
+  .glass-panel-lg {
+    @apply bg-gm-glass border border-gm-glass-border backdrop-blur-xl rounded-3xl shadow-gm-lg;
+  }
+
+  /* Glass card with metallic shine */
+  .glass-card {
+    @apply glass-panel bg-gm-card-shine transition-all duration-300;
+  }
+
+  .glass-card:hover {
+    @apply shadow-gm-lg border-gm-glass-strong;
+    transform: translateY(-2px);
+  }
+
+  /* Metallic text gradient */
+  .text-metal {
+    background: linear-gradient(135deg, #e2e6ee 0%, #a5b0ff 50%, #c0c8d4 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-metal-gold {
+    background: linear-gradient(135deg, #f0d78c 0%, #d4a853 50%, #b8912e 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Glass input field */
+  .glass-input {
+    @apply bg-gm-glass border border-gm-glass-border backdrop-blur-md rounded-full px-4 py-3
+           text-gm-chrome-light placeholder:text-gm-chrome-dark/50
+           focus:outline-none focus:border-gm-accent focus:ring-1 focus:ring-gm-accent/30
+           transition-all duration-200;
+  }
+
+  /* Metallic button */
+  .btn-metal {
+    @apply relative overflow-hidden rounded-xl px-6 py-3 font-semibold text-white
+           transition-all duration-300 shadow-gm-btn;
+    background: linear-gradient(135deg, #7b8cff 0%, #5a6ae0 100%);
+  }
+
+  .btn-metal::after {
+    content: '';
+    @apply absolute inset-0 opacity-0 transition-opacity duration-300;
+    background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 60%);
+  }
+
+  .btn-metal:hover::after {
+    @apply opacity-100;
+  }
+
+  .btn-metal:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(123, 140, 255, 0.35), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+  }
+
+  /* Gold accent button */
+  .btn-gold {
+    @apply relative overflow-hidden rounded-xl px-6 py-3 font-semibold text-gm-bg
+           transition-all duration-300 shadow-gm-lg;
+    background: linear-gradient(135deg, #f0d78c 0%, #d4a853 50%, #b8912e 100%);
+  }
+
+  .btn-gold::after {
+    content: '';
+    @apply absolute inset-0 opacity-0 transition-opacity duration-300;
+    background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, transparent 60%);
+  }
+
+  .btn-gold:hover::after {
+    @apply opacity-100;
+  }
+
+  .btn-gold:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 32px rgba(212, 168, 83, 0.35);
+  }
+
+  /* Category badge */
+  .badge-glass {
+    @apply text-xs font-semibold px-3 py-1 rounded-full backdrop-blur-md border;
+    background: rgba(123, 140, 255, 0.15);
+    border-color: rgba(123, 140, 255, 0.3);
+    color: #a5b0ff;
+  }
+
+  /* Animated background glow */
+  .glow-orb {
+    @apply absolute rounded-full blur-3xl opacity-20 pointer-events-none;
+    animation: float 8s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(30px, -30px) scale(1.05); }
+    66% { transform: translate(-20px, 20px) scale(0.95); }
+  }
+}
+
+/* ── Utilities ── */
+@layer utilities {
+  .text-gradient-metal {
+    background: linear-gradient(135deg, #e2e6ee, #a5b0ff, #c0c8d4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
 }
