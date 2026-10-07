@@ -1,19 +1,18 @@
 <template>
   <div class="min-h-screen relative">
     <!-- Animated background orbs -->
-    <div class="glow-orb top-20 left-10 w-[500px] h-[500px]" style="background: radial-gradient(circle, rgba(123,140,255,0.3), transparent);"></div>
-    <div class="glow-orb top-1/3 right-10 w-[400px] h-[400px]" style="background: radial-gradient(circle, rgba(167,139,250,0.25), transparent); animation-delay: -3s;"></div>
-    <div class="glow-orb bottom-20 left-1/3 w-[600px] h-[600px]" style="background: radial-gradient(circle, rgba(123,140,255,0.15), transparent); animation-delay: -6s;"></div>
+    <div class="glow-orb top-20 left-10 w-[500px] h-[500px]" style="background: radial-gradient(circle, rgba(212,168,83,0.25), transparent);"></div>
+    <div class="glow-orb top-1/3 right-10 w-[400px] h-[400px]" style="background: radial-gradient(circle, rgba(123,140,255,0.25), transparent); animation-delay: -3s;"></div>
+    <div class="glow-orb bottom-20 left-1/3 w-[600px] h-[600px]" style="background: radial-gradient(circle, rgba(212,168,83,0.15), transparent); animation-delay: -6s;"></div>
 
     <SiteNav />
 
     <div class="relative z-10 p-6 max-w-7xl mx-auto">
       <!-- Header -->
-      <header class="text-center mb-16 pt-8">
-        <!-- Logo + Title -->
+      <header class="text-center mb-16 pt-6">
         <div class="glass-panel-lg inline-flex items-center gap-5 px-8 py-5 mb-8">
           <div class="relative">
-            <div class="absolute inset-0 rounded-xl blur-md opacity-50" style="background: linear-gradient(135deg, #7b8cff, #a78bfa);"></div>
+            <div class="absolute inset-0 rounded-xl blur-md opacity-50" style="background: linear-gradient(135deg, #d4a853, #f0d78c);"></div>
             <img
               src="https://imgs.search.brave.com/4rbgd1I8Px2JUrLa9drf8iBEI3JiHcY2dY86egt926g/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly91cGxv/YWQud2lraW1lZGlh/Lm9yZy93aWtpcGVk/aWEvaXQvNi82Ny9B/c3RpLUdvbmZhbG9u/ZS5wbmc_dXRtX3Nv/dXJjZT1pdC53aWtp/cGVkaWEub3JnJnV0/bV9jYW1wYWlnbj1w/YXJzZXImdXRtX2Nv/bnRlbnQ9dGh1bWJu/YWlsX3Vuc2NhbGVk"
               class="relative w-20 h-20 rounded-xl object-cover ring-1 ring-white/15"
@@ -22,14 +21,14 @@
           </div>
           <div class="text-left">
             <h1 class="text-4xl font-black tracking-tight">
-              <span class="text-metal">Asti</span><span class="text-metal-gold">Center</span>
+              <span class="text-metal-gold">News</span>
             </h1>
-            <p class="text-gm-chrome-dark text-sm tracking-wide uppercase">Il cuore della città, a portata di click</p>
+            <p class="text-gm-chrome-dark text-sm tracking-wide uppercase">Ultime notizie dalla città</p>
           </div>
         </div>
 
         <p class="text-lg text-gm-chrome/70 mb-10 max-w-xl mx-auto leading-relaxed">
-          Scopri le migliori attività, negozi ed eventi della città
+          Aggiornamenti, eventi e avvisi dal Comune di Asti
         </p>
 
         <!-- Search -->
@@ -42,7 +41,7 @@
           <input
             v-model="searchQuery"
             type="text"
-            placeholder="Cerca un'attività, un negozio o un evento..."
+            placeholder="Cerca una notizia..."
             class="glass-input w-full pl-12 pr-14 py-4 text-base"
           />
           <div v-if="searchQuery" class="absolute inset-y-0 right-0 pr-3 flex items-center">
@@ -63,7 +62,7 @@
             :class="[
               'px-4 py-2 rounded-full text-sm font-medium transition-all duration-200',
               activeCategory === cat
-                ? 'bg-gm-accent/20 border border-gm-accent/50 text-gm-accent-light shadow-gm'
+                ? 'bg-gm-gold/20 border border-gm-gold/50 text-gm-gold-light shadow-gm'
                 : 'bg-gm-glass border border-gm-glass-border text-gm-chrome-dark hover:border-gm-glass-strong hover:text-gm-chrome'
             ]"
           >
@@ -72,9 +71,9 @@
         </div>
       </header>
 
-      <!-- Results grid -->
-      <div v-if="filteredBusinesses.length" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <BusinessCard v-for="business in filteredBusinesses" :key="business.id" :business="business" />
+      <!-- News grid -->
+      <div v-if="filteredNews.length" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <NewsCard v-for="item in filteredNews" :key="item.id" :news="item" />
       </div>
 
       <!-- Empty state -->
@@ -83,7 +82,7 @@
           <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-gm-chrome-dark/30 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
-          <p class="text-gm-chrome-dark text-lg">Nessun risultato per "<span class="text-gm-chrome">{{ searchQuery }}</span>"</p>
+          <p class="text-gm-chrome-dark text-lg">Nessuna notizia trovata per "<span class="text-gm-chrome">{{ searchQuery }}</span>"</p>
           <button @click="searchQuery = ''; activeCategory = ''" class="btn-metal mt-6 text-sm">Mostra tutto</button>
         </div>
       </div>
@@ -92,31 +91,31 @@
 </template>
 
 <script setup lang="ts">
-const { mockBusinesses } = await useMocks();
-const businesses = ref(mockBusinesses);
-const searchQuery = ref('');
-const activeCategory = ref('');
+const { mockNews } = await useNews()
+const news = ref(mockNews)
+const searchQuery = ref('')
+const activeCategory = ref('')
 
 const categories = computed(() =>
-  [...new Set(businesses.value.map(b => b.category))]
-);
+  [...new Set(news.value.map(n => n.category))]
+)
 
-const filteredBusinesses = computed(() => {
-  let result = businesses.value;
+const filteredNews = computed(() => {
+  let result = news.value
 
   if (searchQuery.value) {
-    const query = searchQuery.value.toLowerCase();
-    result = result.filter(b =>
-      b.title.toLowerCase().includes(query) ||
-      b.description.toLowerCase().includes(query) ||
-      b.category.toLowerCase().includes(query)
-    );
+    const query = searchQuery.value.toLowerCase()
+    result = result.filter(n =>
+      n.title.toLowerCase().includes(query) ||
+      n.summary.toLowerCase().includes(query) ||
+      n.category.toLowerCase().includes(query)
+    )
   }
 
   if (activeCategory.value) {
-    result = result.filter(b => b.category === activeCategory.value);
+    result = result.filter(n => n.category === activeCategory.value)
   }
 
-  return result;
-});
+  return result
+})
 </script>
