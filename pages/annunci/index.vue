@@ -6,7 +6,7 @@
       style="
         background: radial-gradient(
           circle,
-          rgba(123, 140, 255, 0.3),
+          rgba(212, 168, 83, 0.3),
           transparent
         );
       "
@@ -27,7 +27,7 @@
       style="
         background: radial-gradient(
           circle,
-          rgba(123, 140, 255, 0.15),
+          rgba(212, 168, 83, 0.12),
           transparent
         );
         animation-delay: -6s;
@@ -38,15 +38,14 @@
 
     <div class="relative z-10 p-6 max-w-7xl mx-auto">
       <!-- Header -->
-      <header class="text-center mb-16 pt-8">
-        <!-- Logo + Title -->
+      <header class="text-center mb-16 pt-6">
         <div
           class="glass-panel-lg inline-flex items-center gap-5 px-8 py-5 mb-8"
         >
           <div class="relative">
             <div
               class="absolute inset-0 rounded-xl blur-md opacity-50"
-              style="background: linear-gradient(135deg, #7b8cff, #a78bfa)"
+              style="background: linear-gradient(135deg, #d4a853, #b8912e)"
             ></div>
             <img
               src="https://imgs.search.brave.com/4rbgd1I8Px2JUrLa9drf8iBEI3JiHcY2dY86egt926g/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly91cGxv/YWQud2lraW1lZGlh/Lm9yZy93aWtpcGVk/aWEvaXQvNi82Ny9B/c3RpLUdvbmZhbG9u/ZS5wbmc_dXRtX3Nv/dXJjZT1pdC53aWtp/cGVkaWEub3JnJnV0/bV9jYW1wYWlnbj1w/YXJzZXImdXRtX2Nv/bnRlbnQ9dGh1bWJu/YWlsX3Vuc2NhbGVk"
@@ -56,11 +55,10 @@
           </div>
           <div class="text-left">
             <h1 class="text-4xl font-black tracking-tight">
-              <span class="text-metal">Asti</span
-              ><span class="text-metal-gold">Center</span>
+              <span class="text-metal-gold">Annunci</span>
             </h1>
             <p class="text-gm-chrome-dark text-sm tracking-wide uppercase">
-              Il cuore della città, a portata di click
+              Annunci di vendita tra privati
             </p>
           </div>
         </div>
@@ -68,7 +66,8 @@
         <p
           class="text-lg text-gm-chrome/70 mb-10 max-w-xl mx-auto leading-relaxed"
         >
-          Scopri le migliori attività, negozi ed eventi della città
+          Compra e vendi usato nella zona di Asti. Dagli oggetti ai veicoli,
+          trova quello che cerchi!
         </p>
 
         <!-- Search -->
@@ -94,7 +93,7 @@
           <input
             v-model="searchQuery"
             type="text"
-            placeholder="Cerca un'attività, un negozio o un evento..."
+            placeholder="Cerca tra gli annunci..."
             class="glass-input w-full pl-12 pr-14 py-4 text-base"
           />
           <div
@@ -130,7 +129,7 @@
             :class="[
               'px-4 py-2 rounded-full text-sm font-medium transition-all duration-200',
               activeCategory === cat
-                ? 'bg-gm-accent/20 border border-gm-accent/50 text-gm-accent-light shadow-gm'
+                ? 'bg-gm-gold/20 border border-gm-gold/50 text-gm-gold-light shadow-gm'
                 : 'bg-gm-glass border border-gm-glass-border text-gm-chrome-dark hover:border-gm-glass-strong hover:text-gm-chrome',
             ]"
           >
@@ -139,15 +138,15 @@
         </div>
       </header>
 
-      <!-- Results grid -->
+      <!-- Listings grid -->
       <div
-        v-if="filteredBusinesses.length"
+        v-if="filteredListings.length"
         class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
       >
-        <BusinessCard
-          v-for="business in filteredBusinesses"
-          :key="business.id"
-          :business="business"
+        <ListingCard
+          v-for="listing in filteredListings"
+          :key="listing.id"
+          :listing="listing"
         />
       </div>
 
@@ -169,7 +168,7 @@
             />
           </svg>
           <p class="text-gm-chrome-dark text-lg">
-            Nessun risultato per "<span class="text-gm-chrome">{{
+            Nessun annuncio trovato per "<span class="text-gm-chrome">{{
               searchQuery
             }}</span
             >"
@@ -190,30 +189,31 @@
 </template>
 
 <script setup lang="ts">
-const { mockBusinesses } = await useMocks();
-const businesses = ref(mockBusinesses);
+const { mockListings } = await useListings();
+const listings = ref(mockListings);
 const searchQuery = ref("");
 const activeCategory = ref("");
 
 const categories = computed(() => [
-  ...new Set(businesses.value.map((b) => b.category)),
+  ...new Set(listings.value.map((l) => l.category)),
 ]);
 
-const filteredBusinesses = computed(() => {
-  let result = businesses.value;
+const filteredListings = computed(() => {
+  let result = listings.value;
 
   if (searchQuery.value) {
     const query = searchQuery.value.toLowerCase();
     result = result.filter(
-      (b) =>
-        b.title.toLowerCase().includes(query) ||
-        b.description.toLowerCase().includes(query) ||
-        b.category.toLowerCase().includes(query),
+      (l) =>
+        l.title.toLowerCase().includes(query) ||
+        l.description.toLowerCase().includes(query) ||
+        l.category.toLowerCase().includes(query) ||
+        l.sellerName.toLowerCase().includes(query),
     );
   }
 
   if (activeCategory.value) {
-    result = result.filter((b) => b.category === activeCategory.value);
+    result = result.filter((l) => l.category === activeCategory.value);
   }
 
   return result;
